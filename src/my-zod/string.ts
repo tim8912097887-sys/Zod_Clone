@@ -9,12 +9,13 @@ class MyZodString extends MyZodType<string> {
     constructor(private customMessage?: string) {
         super();
     }
-    protected validate({ value }: ParseContext): ParseContext {
+    protected validate({ value, issues }: ParseContext): ParseContext {
         if (typeof value !== 'string') {
             const message = this.customMessage || 'Invalid input';
             return {
                 value,
                 issues: [
+                    ...issues,
                     {
                         message,
                         path: ['string'],
@@ -22,6 +23,6 @@ class MyZodString extends MyZodType<string> {
                 ],
             };
         }
-        return { value, issues: [] };
+        return { value, issues };
     }
 }
