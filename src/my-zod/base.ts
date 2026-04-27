@@ -1,5 +1,7 @@
+import { ParseContext } from './type.js';
+
 export abstract class MyZodType<T> {
-    protected abstract validate(input: unknown): T;
+    protected abstract validate(ctx: ParseContext): ParseContext;
 
     parse(input: unknown): T {
         const result = this.safeParse(input);
@@ -11,11 +13,10 @@ export abstract class MyZodType<T> {
     }
 
     safeParse(input: unknown) {
-        try {
-            const result = this.validate(input);
-            return { success: true, data: result as T };
-        } catch (error: any) {
-            return { success: false, error: error.message };
+        const result = this.validate({ value: input, issues: [] });
+        if (result.issues.length > 0) {
+            return { success: false, error: JSON.stringify(result.issues) };
         }
+        return { success: true, data: result.value as T };
     }
 }

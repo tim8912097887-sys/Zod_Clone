@@ -1,4 +1,5 @@
 import { MyZodType } from './base.js';
+import { ParseContext } from './type.js';
 
 export function string(string?: string): MyZodString {
     return new MyZodString(string);
@@ -8,11 +9,19 @@ class MyZodString extends MyZodType<string> {
     constructor(private customMessage?: string) {
         super();
     }
-    protected validate(input: unknown): string {
-        if (typeof input !== 'string') {
+    protected validate({ value }: ParseContext): ParseContext {
+        if (typeof value !== 'string') {
             const message = this.customMessage || 'Invalid input';
-            throw new Error(message);
+            return {
+                value,
+                issues: [
+                    {
+                        message,
+                        path: ['string'],
+                    },
+                ],
+            };
         }
-        return input;
+        return { value, issues: [] };
     }
 }
