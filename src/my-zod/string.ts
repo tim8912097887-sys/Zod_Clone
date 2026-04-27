@@ -25,4 +25,53 @@ class MyZodString extends MyZodType<string> {
         }
         return { value, issues };
     }
+
+    min(length: number, message?: string) {
+        this.validators.push((ctx) => {
+            if (ctx.value.length < length) {
+                const customMessage =
+                    message ||
+                    `String must be at least ${length} characters long`;
+                ctx.issues.push({
+                    message: customMessage,
+                    path: ['string'],
+                });
+                return false;
+            }
+            return true;
+        });
+        return this;
+    }
+
+    max(length: number, message?: string) {
+        this.validators.push((ctx) => {
+            if (ctx.value.length > length) {
+                const customMessage =
+                    message ||
+                    `String must be at most ${length} characters long`;
+                ctx.issues.push({
+                    message: customMessage,
+                    path: ['string'],
+                });
+                return false;
+            }
+            return true;
+        });
+        return this;
+    }
+
+    regex(regex: RegExp, message?: string) {
+        this.validators.push((ctx) => {
+            if (!regex.test(ctx.value)) {
+                const customMessage = message || 'Invalid input';
+                ctx.issues.push({
+                    message: customMessage,
+                    path: ['string'],
+                });
+                return false;
+            }
+            return true;
+        });
+        return this;
+    }
 }

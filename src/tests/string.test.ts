@@ -1,8 +1,8 @@
 import { string } from '#my-zod/string.js';
 import { describe, expect, it } from 'vitest';
 
-describe('My Zod String', () => {
-    describe('Parse', () => {
+describe('My Zod String Validation', () => {
+    describe('Single Parse', () => {
         it('Wehn input is string, should return string', () => {
             const testString = 'test';
             const zodString = string();
@@ -29,7 +29,7 @@ describe('My Zod String', () => {
         });
     });
 
-    describe('Safe Parse', () => {
+    describe('Single Safe Parse', () => {
         it('When input is string, should return string', () => {
             const testString = 'test';
             const zodString = string();
@@ -56,6 +56,89 @@ describe('My Zod String', () => {
 
             expect(result.success).toBe(false);
             expect(result.error).toContain('Custom message');
+        });
+    });
+
+    describe('Multiple Parse', () => {
+        describe('Minimum Length', () => {
+            it('When input is string with minimum length, should return string', () => {
+                const testString = 'test';
+                const zodString = string().min(4);
+
+                const result = zodString.parse(testString);
+
+                expect(result).toBe(testString);
+            });
+
+            it('When input is string with less than minimum length and not provided custom message, should throw error with default message', () => {
+                const zodString = string().min(4);
+
+                expect(() => {
+                    zodString.parse('tes');
+                }).toThrow('String must be at least 4 characters long');
+            });
+
+            it('When input is string with less than minimum length and provided custom message, should throw error with custom message', () => {
+                const zodString = string().min(4, 'Custom message');
+
+                expect(() => {
+                    zodString.parse('tes');
+                }).toThrow('Custom message');
+            });
+        });
+
+        describe('Maximum Length', () => {
+            it('When input is string with maximum length, should return string', () => {
+                const testString = 'test';
+                const zodString = string().max(4);
+
+                const result = zodString.parse(testString);
+
+                expect(result).toBe(testString);
+            });
+
+            it('When input is string with more than maximum length and not provided custom message, should throw error with default message', () => {
+                const zodString = string().max(4);
+
+                expect(() => {
+                    zodString.parse('tests');
+                }).toThrow('String must be at most 4 characters long');
+            });
+
+            it('When input is string with more than maximum length and provided custom message, should throw error with custom message', () => {
+                const zodString = string().max(4, 'Custom message');
+
+                expect(() => {
+                    zodString.parse('tests');
+                }).toThrow('Custom message');
+            });
+        });
+
+        describe('Regex', () => {
+            it('When input matches regex, should return string', () => {
+                const testString = 'test';
+                const zodString = string().regex(/test/);
+
+                const result = zodString.parse(testString);
+
+                expect(result).toBe(testString);
+            });
+
+            it('When input does not match regex and not provided custom message, should throw error with default message', () => {
+                const zodString = string().regex(/test/);
+
+                expect(() => {
+                    zodString.parse('tes');
+                }).toThrow('Invalid input');
+            });
+
+            it('When input does not match regex and provided custom message, should throw error with custom message', () => {
+                const zodString = string().regex(/test/, 'Custom message');
+
+                expect(() => {
+                    zodString.parse('tes');
+                }).toThrow('Custom message');
+            });
         });
     });
 });
