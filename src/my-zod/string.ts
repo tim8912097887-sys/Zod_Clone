@@ -60,6 +60,22 @@ export class MyZodString extends MyZodType<string> {
         return this;
     }
 
+    length(length: number, message?: string) {
+        this.validators.push((ctx) => {
+            if (ctx.value.length !== length) {
+                const customMessage =
+                    message || `String must be ${length} characters long`;
+                ctx.issues.push({
+                    message: customMessage,
+                    path: ['string'],
+                });
+                return false;
+            }
+            return true;
+        });
+        return this;
+    }
+
     regex(regex: RegExp, message?: string) {
         this.validators.push((ctx) => {
             if (!regex.test(ctx.value)) {

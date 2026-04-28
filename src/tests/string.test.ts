@@ -114,6 +114,33 @@ describe('My Zod String Validation', () => {
             });
         });
 
+        describe('Length', () => {
+            it('When input is string with exact length, should return string', () => {
+                const testString = 'test';
+                const zodString = string().length(4);
+
+                const result = zodString.parse(testString);
+
+                expect(result).toBe(testString);
+            });
+
+            it('When input is string with different length and not provided custom message, should throw error with default message', () => {
+                const zodString = string().length(4);
+
+                expect(() => {
+                    zodString.parse('tests');
+                }).toThrow('String must be 4 characters long');
+            });
+
+            it('When input is string with different length and provided custom message, should throw error with custom message', () => {
+                const zodString = string().length(4, 'Custom message');
+
+                expect(() => {
+                    zodString.parse('tests');
+                }).toThrow('Custom message');
+            });
+        });
+
         describe('Regex', () => {
             it('When input matches regex, should return string', () => {
                 const testString = 'test';

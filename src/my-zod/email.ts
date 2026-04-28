@@ -15,16 +15,8 @@ class MyZodEmail extends MyZodString {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(emailCtx.value)) {
             const message = this.customMessage || 'Invalid email address';
-            return {
-                value: emailCtx.value,
-                issues: [
-                    ...emailCtx.issues,
-                    {
-                        message,
-                        path: ['email'],
-                    },
-                ],
-            };
+            emailCtx.issues.push({ message, path: ['email'] });
+            return emailCtx;
         }
         return emailCtx;
     }
