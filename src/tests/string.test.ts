@@ -17,7 +17,7 @@ describe('My Zod String Validation', () => {
 
             expect(() => {
                 zodString.parse(123);
-            }).toThrow('Invalid input');
+            }).toThrow('Input must be a string');
         });
 
         it('When input is not string and custom message is provided, should throw error with custom message', () => {
@@ -46,7 +46,7 @@ describe('My Zod String Validation', () => {
             const result = zodString.safeParse(123);
 
             expect(result.success).toBe(false);
-            expect(result.error).toContain('Invalid input');
+            expect(result.error).toContain('Input must be a string');
         });
 
         it('When input is not string and custom message is provided, should return error with custom message', () => {
@@ -63,7 +63,7 @@ describe('My Zod String Validation', () => {
         describe('Minimum Length', () => {
             it('When input is string with minimum length, should return string', () => {
                 const testString = 'test';
-                const zodString = string().min(4);
+                const zodString = string().minLength(4);
 
                 const result = zodString.parse(testString);
 
@@ -71,7 +71,7 @@ describe('My Zod String Validation', () => {
             });
 
             it('When input is string with less than minimum length and not provided custom message, should throw error with default message', () => {
-                const zodString = string().min(4);
+                const zodString = string().minLength(4);
 
                 expect(() => {
                     zodString.parse('tes');
@@ -79,7 +79,7 @@ describe('My Zod String Validation', () => {
             });
 
             it('When input is string with less than minimum length and provided custom message, should throw error with custom message', () => {
-                const zodString = string().min(4, 'Custom message');
+                const zodString = string().minLength(4, 'Custom message');
 
                 expect(() => {
                     zodString.parse('tes');
@@ -90,7 +90,7 @@ describe('My Zod String Validation', () => {
         describe('Maximum Length', () => {
             it('When input is string with maximum length, should return string', () => {
                 const testString = 'test';
-                const zodString = string().max(4);
+                const zodString = string().maxLength(4);
 
                 const result = zodString.parse(testString);
 
@@ -98,7 +98,7 @@ describe('My Zod String Validation', () => {
             });
 
             it('When input is string with more than maximum length and not provided custom message, should throw error with default message', () => {
-                const zodString = string().max(4);
+                const zodString = string().maxLength(4);
 
                 expect(() => {
                     zodString.parse('tests');
@@ -106,7 +106,7 @@ describe('My Zod String Validation', () => {
             });
 
             it('When input is string with more than maximum length and provided custom message, should throw error with custom message', () => {
-                const zodString = string().max(4, 'Custom message');
+                const zodString = string().maxLength(4, 'Custom message');
 
                 expect(() => {
                     zodString.parse('tests');

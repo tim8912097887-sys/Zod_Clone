@@ -12,7 +12,7 @@ export class MyZodNumber extends MyZodType<number> {
     protected validate(ctx: ParseContext): ParseContext {
         if (typeof ctx.value !== 'number' || isNaN(ctx.value)) {
             ctx.issues.push({
-                message: this.customMessage || 'Invalid input',
+                message: this.customMessage || 'Input must be a number',
                 path: ['number'],
             });
         }

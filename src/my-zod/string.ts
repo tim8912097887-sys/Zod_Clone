@@ -5,13 +5,13 @@ export function string(string?: string): MyZodString {
     return new MyZodString(string);
 }
 
-class MyZodString extends MyZodType<string> {
-    constructor(private customMessage?: string) {
+export class MyZodString extends MyZodType<string> {
+    constructor(protected customMessage?: string) {
         super();
     }
     protected validate({ value, issues }: ParseContext): ParseContext {
         if (typeof value !== 'string') {
-            const message = this.customMessage || 'Invalid input';
+            const message = this.customMessage || 'Input must be a string';
             return {
                 value,
                 issues: [
@@ -26,7 +26,7 @@ class MyZodString extends MyZodType<string> {
         return { value, issues };
     }
 
-    min(length: number, message?: string) {
+    minLength(length: number, message?: string) {
         this.validators.push((ctx) => {
             if (ctx.value.length < length) {
                 const customMessage =
@@ -43,7 +43,7 @@ class MyZodString extends MyZodType<string> {
         return this;
     }
 
-    max(length: number, message?: string) {
+    maxLength(length: number, message?: string) {
         this.validators.push((ctx) => {
             if (ctx.value.length > length) {
                 const customMessage =

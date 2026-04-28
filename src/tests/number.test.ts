@@ -17,7 +17,7 @@ describe('My Zod Number Validation', () => {
 
             expect(() => {
                 zodNumber.parse('123');
-            }).toThrow('Invalid input');
+            }).toThrow('Input must be a number');
         });
 
         it('When input is not number and custom message is provided, should throw error with custom message', () => {
