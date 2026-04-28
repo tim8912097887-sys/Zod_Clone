@@ -30,7 +30,7 @@ class MyZodArray<T> extends MyZodType<Array<T>> {
                 );
                 if (!result.success) {
                     arrayCtx.issues.push({
-                        message: result.error as string,
+                        message: result.error?.message as string,
                         path: ['array', i],
                     });
                 }

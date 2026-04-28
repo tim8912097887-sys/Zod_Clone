@@ -46,7 +46,7 @@ describe('My Zod String Validation', () => {
             const result = zodString.safeParse(123);
 
             expect(result.success).toBe(false);
-            expect(result.error).toContain('Input must be a string');
+            expect(result.error?.message).toContain('Input must be a string');
         });
 
         it('When input is not string and custom message is provided, should return error with custom message', () => {
@@ -55,7 +55,7 @@ describe('My Zod String Validation', () => {
             const result = zodString.safeParse(123);
 
             expect(result.success).toBe(false);
-            expect(result.error).toContain('Custom message');
+            expect(result.error?.message).toContain('Custom message');
         });
     });
 
