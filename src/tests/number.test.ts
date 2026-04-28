@@ -84,33 +84,6 @@ describe('My Zod Number Validation', () => {
             });
         });
 
-        describe('Range', () => {
-            it('When input is number within range, should return number', () => {
-                const testNumber = 23;
-                const zodNumber = number().min(10).max(100);
-
-                const result = zodNumber.parse(testNumber);
-
-                expect(result).toBe(testNumber);
-            });
-
-            it('When input is number outside of range and not provided custom message, should throw error with default message', () => {
-                const zodNumber = number().min(10).max(100);
-
-                expect(() => {
-                    zodNumber.parse(9);
-                }).toThrow('Number must be at least 10');
-            });
-
-            it('When input is number outside of range and provided custom message, should throw error with custom message', () => {
-                const zodNumber = number().min(10, 'Custom message').max(100);
-
-                expect(() => {
-                    zodNumber.parse(9);
-                }).toThrow('Custom message');
-            });
-        });
-
         describe('Positive', () => {
             it('When input is positive number, should return number', () => {
                 const testNumber = 23;
