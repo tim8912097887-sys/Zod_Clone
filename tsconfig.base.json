@@ -22,6 +22,10 @@
         "esModuleInterop": true, // CommonJS/ES module interop
         "resolveJsonModule": true,
         "forceConsistentCasingInFileNames": true,
-        "isolatedModules": true
+        "isolatedModules": true,
+
+        // Library specific
+        "declaration": true,
+        "declarationMap": true
     }
 }
