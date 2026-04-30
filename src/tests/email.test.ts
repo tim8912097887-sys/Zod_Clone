@@ -91,4 +91,15 @@ describe('My Zod Email Validation', () => {
             });
         });
     });
+
+    describe('With Transform', () => {
+        it('When input is email, should return email', () => {
+            const testString = 'teST@gmail.com';
+            const zodEmail = email().toLowercase();
+
+            const result = zodEmail.parse(testString);
+
+            expect(result).toBe(testString.toLowerCase());
+        });
+    });
 });

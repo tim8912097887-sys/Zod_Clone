@@ -196,5 +196,14 @@ describe('My Zod String Validation', () => {
 
             expect(result).toBe(testString.trim());
         });
+
+        it('When input is string with custom transform, should return transformed string', () => {
+            const testString = '   test   ';
+            const zodString = string().transform((value) => value + '+');
+
+            const result = zodString.parse(testString);
+
+            expect(result).toBe(testString + '+');
+        });
     });
 });
