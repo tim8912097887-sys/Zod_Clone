@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { object } from '#my-zod/object.js';
 import { string } from '#my-zod/string.js';
 import { number } from '#my-zod/number.js';
+import { optional } from '#my-zod/base.js';
 
 describe('My Zod Object', () => {
     describe('Object with argument validator', () => {
@@ -59,6 +60,51 @@ describe('My Zod Object', () => {
             expect(() => {
                 zodObject.parse(testObject);
             }).toThrow('Custom message');
+        });
+    });
+
+    describe('Object with optional argument validator', () => {
+        it('When input is object without optional property and have optional validator, should return object', () => {
+            const testObject = {
+                name: 'John',
+            };
+            const zodObject = object({
+                name: string(),
+                age: number().optional(),
+            });
+
+            const result = zodObject.parse(testObject);
+
+            expect(result).toBe(testObject);
+        });
+
+        it('When input is object without optional property and have optional validator wrap with property, should return object', () => {
+            const testObject = {
+                name: 'John',
+            };
+            const zodObject = object({
+                name: string(),
+                age: optional(number()),
+            });
+
+            const result = zodObject.parse(testObject);
+
+            expect(result).toBe(testObject);
+        });
+
+        it('When input is object with optional property but not conform to validator, should return object', () => {
+            const testObject = {
+                name: 'John',
+                age: '30',
+            };
+            const zodObject = object({
+                name: string(),
+                age: number().optional(),
+            });
+
+            expect(() => {
+                zodObject.parse(testObject);
+            }).toThrow('Input must be a number');
         });
     });
 });
