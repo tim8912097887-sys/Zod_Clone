@@ -14,7 +14,7 @@ concurrency:
     group: ${{ github.workflow }}-${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.ref }}
     cancel-in-progress: ${{ github.event_name == 'pull_request' || github.ref != 'refs/heads/main' }}
 jobs:
-    test:
+    lint:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout

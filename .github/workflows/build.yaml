@@ -1,4 +1,4 @@
-name: CI-BUild
+name: CI-Build
 on:
     push:
         branches:
@@ -14,7 +14,7 @@ concurrency:
     group: ${{ github.workflow }}-${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.ref }}
     cancel-in-progress: ${{ github.event_name == 'pull_request' || github.ref != 'refs/heads/main' }}
 jobs:
-    test:
+    build:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout
