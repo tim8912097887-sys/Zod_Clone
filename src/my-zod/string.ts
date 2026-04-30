@@ -76,6 +76,21 @@ export class MyZodString extends MyZodType<string> {
         return this;
     }
 
+    toUppercase() {
+        this.transformer.push((value) => value.toUpperCase());
+        return this;
+    }
+
+    toLowercase() {
+        this.transformer.push((value) => value.toLowerCase());
+        return this;
+    }
+
+    trim() {
+        this.transformer.push((value) => value.trim());
+        return this;
+    }
+
     regex(regex: RegExp, message?: string) {
         this.validators.push((ctx) => {
             if (!regex.test(ctx.value)) {

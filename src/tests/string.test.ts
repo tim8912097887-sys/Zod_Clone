@@ -168,4 +168,33 @@ describe('My Zod String Validation', () => {
             });
         });
     });
+
+    describe('With Transformers', () => {
+        it('When input is string with uppercase transform, should return uppercase string', () => {
+            const testString = 'test';
+            const zodString = string().toUppercase();
+
+            const result = zodString.parse(testString);
+
+            expect(result).toBe(testString.toUpperCase());
+        });
+
+        it('When input is string with lowercase transform, should return lowercase string', () => {
+            const testString = 'TEST';
+            const zodString = string().toLowercase();
+
+            const result = zodString.parse(testString);
+
+            expect(result).toBe(testString.toLowerCase());
+        });
+
+        it('When input is string with trim transform, should return trimmed string', () => {
+            const testString = '   test   ';
+            const zodString = string().trim();
+
+            const result = zodString.parse(testString);
+
+            expect(result).toBe(testString.trim());
+        });
+    });
 });

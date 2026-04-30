@@ -3,7 +3,7 @@ import { ParseContext } from './type.js';
 
 export abstract class MyZodType<T> {
     protected validators: Array<(ctx: ParseContext<T>) => boolean> = [];
-
+    protected transformer: Array<(input: T) => T> = [];
     protected abstract validate(ctx: ParseContext): ParseContext;
 
     parse(input: unknown): T {
@@ -27,6 +27,10 @@ export abstract class MyZodType<T> {
         if (data.issues.length > 0) {
             return { success: false, error: new MyZodError(data.issues) };
         }
+        // Run transformers
+        this.transformer.forEach(
+            (transformer) => (data.value = transformer(data.value)),
+        );
         return { success: true, data: data.value };
     }
 }
