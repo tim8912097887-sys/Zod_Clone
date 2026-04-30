@@ -138,4 +138,15 @@ describe('My Zod Number Validation', () => {
             });
         });
     });
+
+    describe('With Transform', () => {
+        it('When input is number with transformer, should return number after transformer', () => {
+            const testNumber = 123;
+            const zodNumber = number().transform((value) => value + 1);
+
+            const result = zodNumber.parse(testNumber);
+
+            expect(result).toBe(testNumber + 1);
+        });
+    });
 });
